@@ -5,6 +5,8 @@
 // ioc.reg("yourMethod",yourMethod)
 // or  ioc.reg([{name:"yourMethod",fn:yourMethod}])
 
+// ps : es5 has not yield, without babel
+
 function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
@@ -73,23 +75,28 @@ var record = function(array){
                 }
                 if(rev())
                     return
-                sleep(100).then(()=>{
+                sleep(10).then(()=>{
                     if(rev())
                         return
-                    sleep(300).then(function(){
+                    sleep(100).then(function(){
                         if(rev())
                             return
-                        sleep(500).then(function(){
+                        sleep(200).then(function(){
                             if(rev())
                                 return
-                            sleep(1500).then(function(){
+                            sleep(500).then(function(){
                                 if(rev())
                                     return
-                                sleep(3000).then(function(){
+                                sleep(800).then(function(){
                                     if(rev())
                                         return
-                                    console.log("IOC:invoke:"+name + " failed,you must reg it")
-                                    reject("invoke failed :" +name)
+                                    sleep(3000).then(()=>{
+                                        if(rev())
+                                            return
+                                        console.log("IOC:invoke:"+name + " failed,you must reg it")
+                                        reject("invoke failed :" +name)
+                                    })
+  
                                 })
                             })
                         })
