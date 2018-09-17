@@ -1,0 +1,24 @@
+{
+  "name": "peeriocjs",
+  "version": "1.0.0",
+  "description": "peer invoking package",
+  "main": "src/ioc.js",
+  "scripts": {
+    "test": "node src/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apporoad/iocjs.git"
+  },
+  "keywords": [
+    "ioc",
+    "js",
+    "es5"
+  ],
+  "author": "apporoad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apporoad/iocjs/issues"
+  },
+  "homepage": "https://github.com/apporoad/iocjs#readme"
+}

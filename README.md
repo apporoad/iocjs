@@ -7,8 +7,13 @@ iocjs is an easy for peer invoking
 3. it will work in browser and node
 4. it wrapped with promise
 
+## how to install 
+    //install
+    npm i peeriocjs --save
+    
 ## how to use
-    var ioc = require('./ioc')
+
+    var ioc = require('peeriocjs')
     // first record methods
     ioc.record(["test1","test2","test3"])
 
