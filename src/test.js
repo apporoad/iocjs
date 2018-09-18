@@ -61,3 +61,6 @@ ioc.abc.invoke.fn1("p1").then(function(data){
 })
 
 ioc.abc.reg("fn1",function(p1){return 3})
+
+
+require('./test2')
