@@ -14,10 +14,21 @@ function sleep (time) {
 
 function ioc(){
     var _this = this;
+    
     /**
-     * invoke obj
+     * invoke obj or function
+     * @param {string or Array} fnName 
      */
-    this.invoke={};
+    this.invoke=function(fnName){
+        if(!fnName)
+            return _this.invoke
+        //record and invoke
+        if(typeof(fnName) == "string")
+            _this.record([fnName]);
+        else
+            _this.record(fnName)
+        return _this.invoke
+    };
     /**
      * inner invoke obj
      */
@@ -30,7 +41,11 @@ function ioc(){
      * @param {object} bindObj
      */
     this.regOne =  function(methodName,methodFn,bindObj){
+        //record 
+        _this.record([methodName])
         _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
+        //chain
+        return _this;
     } ;
 
     
@@ -52,6 +67,8 @@ function ioc(){
                 _this.regOne(methodNameOrArray[i].name,methodNameOrArray[i].fn,methodNameOrArray[i].bindObj)
             }
         }
+        //chain
+        return _this;
     }
 
 
@@ -61,6 +78,8 @@ function ioc(){
     this.record = function(array){
         for(var i=0;i<array.length;i++){
             var name = array[i]
+            if(_this.invoke[name])
+                continue;
             // add bindObject ,for 'this'
             _this.invoke[name]=function(){
                 var name = this.fnName
@@ -112,6 +131,9 @@ function ioc(){
                 fnName : name
             })
         }
+
+        //chain
+        return _this;
     }
 
 }
@@ -133,11 +155,15 @@ exports.addModule = function(moduleName){
     if(!moduleName)
     {
         console.log("modulename must have a value")
-        return
+        return LiSA;
     }
     if(exports[moduleName]){
         console.log("modulename cant be add repeatly")
-        return
+        return exports[moduleName]
     }
     exports[moduleName] = new ioc();
+    //chain
+    return exports[moduleName];
 }
+
+exports.module = exports.addModule

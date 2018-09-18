@@ -12,61 +12,44 @@ iocjs is an easy for peer invoking
     npm i peeriocjs --save
     
 ## how to use
+* detail @ src/test.*.js
+* here is Recommended Usage
 
-    var ioc = require('peeriocjs')
-    // first record methods
-    ioc.record(["test1","test2","test3"])
+    //chain invoke
+    //here is invoke
+    require("peeriocjs").invoke("fn1").fn1("hello good day").then(function(data){ console.log("here is then")})
 
-    // then you can invoke the methods any way
-    ioc.invoke.test1("p1","p2").then(function(data){
-        console.log(data)
+    //here is register
+    require("peeriocjs").reg("fn1",function(p1){console.log("divide chain success:" + p1 + " "+ this.LiSA)},{ LiSA : "love and peace"})
+
+
+    // recomand operation
+    //here is invoke
+    var i1154 = require("./ioc").module("1154").invoke(["fn1","config"])
+
+    i1154.fn1("hello good day")
+    i1154.config().then(function(config){
+        console.log("config value :" + config.name)
     })
 
-    ioc.invoke.test2().then(function(){
-        console.log("test2 invoked ok")
-    })
 
-    ioc.invoke.test3("p1").then(function(data){
-        console.log(data)
-    })
-
-    // define a bind object
-    var bo = {
-        name : "LiSA",
-        age :32
-    }
-
-    // here to register real methods
-    ioc.reg([
+    // here is reg
+    var m1154 = require("./ioc").module("1154")
+    m1154.reg([
         {
-            name:"test1",
-            fn:function(p1,p2,p3){
-                return p1 + p2 ;
-            }
-        },
-        {
-            name : "test2",
+            name:"fn1",
             fn:function(p1){
-                
+                console.log("recommanded is success:" + p1)
+                return "yes"
             }
         },
         {
-            name: "test3",
-            fn: function(p1){
-                return p1 + this.name + this.age;
-            },
-            bindObj : bo
+            name:"config",
+            fn:function(){
+                return {
+                    name : "LiSA"
+                }
+            }
         }
     ])
-    // add module 
-    ioc.addModule("reg")
 
-    ioc.addModule("abc")
-
-    ioc.abc.record(["fn1","fn2"])
-
-    ioc.abc.invoke.fn1("p1").then(function(data){ 
-        console.log("your has invoke module.method success :" + data)
-    })
-
-    ioc.abc.reg("fn1",function(p1){return 3})

@@ -4,7 +4,7 @@
   "description": "peer invoking package",
   "main": "src/ioc.js",
   "scripts": {
-    "test": "node src/test.js"
+    "test": "node src/test.3.js"
   },
   "repository": {
     "type": "git",

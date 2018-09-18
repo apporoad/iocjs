@@ -1,21 +1,18 @@
 
-
 var ioc = require('./ioc')
 
+console.log("here is easy use******************************************************")
 //error
 //ioc.invoke.test1("p1","p2")
-
-
+//1. you must record first
 ioc.record(["test1","test2","test3"])
-
+//2. you can invoke fn you recorded already
 ioc.invoke.test1("p1","p2").then(function(data){
     console.log(data)
 })
-
 ioc.invoke.test2().then(function(){
     console.log("test2 invoked ok")
 })
-
 ioc.invoke.test3("p1").then(function(data){
     console.log(data)
 })
@@ -24,7 +21,7 @@ var bo = {
     name : "LiSA",
     age :32
 }
-
+//3. you must register fn anywhere in 5 seconds
 ioc.reg([
     {
         name:"test1",
@@ -46,21 +43,3 @@ ioc.reg([
         bindObj : bo
     }
 ])
-
-
-
-// add module 
-ioc.addModule("reg")
-
-ioc.addModule("abc")
-
-ioc.abc.record(["fn1","fn2"])
-
-ioc.abc.invoke.fn1("p1").then(function(data){ 
-    console.log("your has invoke module.method success :" + data)
-})
-
-ioc.abc.reg("fn1",function(p1){return 3})
-
-
-require('./test2')
