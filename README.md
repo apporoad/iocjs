@@ -25,7 +25,7 @@ iocjs is an easy for peer invoking
 
     // recomand operation
     //here is invoke
-    var i1154 = require("./ioc").module("1154").invoke(["fn1","config"])
+    var i1154 = require("peeriocjs").module("1154").invoke(["fn1","config"])
 
     i1154.fn1("hello good day")
     i1154.config().then(function(config){
@@ -34,7 +34,7 @@ iocjs is an easy for peer invoking
 
 
     // here is reg
-    var m1154 = require("./ioc").module("1154")
+    var m1154 = require("peeriocjs").module("1154")
     m1154.reg([
         {
             name:"fn1",
