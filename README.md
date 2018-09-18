@@ -14,7 +14,7 @@ iocjs is an easy for peer invoking
 ## how to use
 * detail @ src/test.*.js
 * here is Recommended Usage
-
+```
     //chain invoke
     //here is invoke
     require("peeriocjs").invoke("fn1").fn1("hello good day").then(function(data){ console.log("here is then")})
@@ -52,4 +52,4 @@ iocjs is an easy for peer invoking
             }
         }
     ])
-
+```
