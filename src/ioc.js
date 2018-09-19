@@ -97,32 +97,13 @@ function ioc(){
                 }
                 if(rev())
                     return result
-                sleep(10).then(()=>{
-                    if(rev())
-                        return result
-                    sleep(100).then(function(){
-                        if(rev())
-                            return result
-                        sleep(200).then(function(){
-                            if(rev())
-                                return result
-                            sleep(500).then(function(){
-                                if(rev())
-                                    return result
-                                sleep(800).then(function(){
-                                    if(rev())
-                                        return result
-                                    sleep(3000).then(()=>{
-                                        if(rev())
-                                            return result
-                                        console.log("IOC:invoke.sync:"+name + " failed,you must reg it")
-                                    })
+                //sleep 100 ms
+                var waitUntil = new Date(new Date().getTime() + 100);
+                while(waitUntil > new Date()){}
+                if(!rev())
+                    console.log("IOC:invoke.sync:"+name + " failed,you must reg it")
+                return result
 
-                                })
-                            })
-                        })
-                    })
-                })
 
             }.bind({
                 fnName : name
