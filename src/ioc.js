@@ -80,7 +80,55 @@ function ioc(){
             var name = array[i]
             if(_this.invoke[name])
                 continue;
-            // add bindObject ,for 'this'
+            //sync
+            _this.invoke.sync = _this.invoke.sync || {}
+            _this.invoke.sync[name] = function(){
+                var name = this.fnName
+                var args = arguments
+                var result = null
+                var rev = function(){
+                    if(_this.registeredMethods[name])
+                    {
+                        result = _this.registeredMethods[name].fn.apply(_this.registeredMethods[name].bo,args);
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                if(rev())
+                    return result
+                sleep(10).then(()=>{
+                    if(rev())
+                        return result
+                    sleep(100).then(function(){
+                        if(rev())
+                            return result
+                        sleep(200).then(function(){
+                            if(rev())
+                                return result
+                            sleep(500).then(function(){
+                                if(rev())
+                                    return result
+                                sleep(800).then(function(){
+                                    if(rev())
+                                        return result
+                                    sleep(3000).then(()=>{
+                                        if(rev())
+                                            return result
+                                        console.log("IOC:invoke.sync:"+name + " failed,you must reg it")
+                                    })
+
+                                })
+                            })
+                        })
+                    })
+                })
+
+            }.bind({
+                fnName : name
+            })
+
+            //async (promise) add bindObject ,for 'this'
             _this.invoke[name]=function(){
                 var name = this.fnName
                 let promise = new Promise((resolve, reject) => {

@@ -21,8 +21,9 @@ require("peeriocjs").invoke("fn1").fn1("hello good day").then(function(data){ co
 
 //here is register
 require("peeriocjs").reg("fn1",function(p1){console.log("divide chain success:" + p1 + " "+ this.LiSA)},{ LiSA : "love and peace"})
+```
 
-
+```JavaScript
 // recomand operation
 //here is invoke
 var i1154 = require("peeriocjs").module("1154").invoke(["fn1","config"])
@@ -52,4 +53,12 @@ m1154.reg([
         }
     }
 ])
+```
+
+```JavaScript
+// here test sync
+var v = require('peeriocjs').module("abc").invoke("fn").sync.fn("hello good day")
+console.log("v:" + v);
+console.log("here should behind v")
+require('peeriocjs').module("abc").reg("fn",function(p1){ return "params:" + p1})
 ```
