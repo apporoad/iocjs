@@ -169,14 +169,12 @@ function ioc(){
 
 
 
+
 global.LiSA = global.LiSA || new ioc();
 
 
 
 exports =global.LiSA
-
-
-
 
 exports.record = LiSA.record
 exports.reg = LiSA.reg;
@@ -192,7 +190,7 @@ exports.addModule = function(moduleName){
         return global.LiSA ;
     }
     if(exports[moduleName]){
-        //console.log("modulename cant be add repeatly")
+        console.log("modulename cant be add repeatly")
         return exports[moduleName]
     }
     exports[moduleName] = new ioc();
@@ -201,5 +199,4 @@ exports.addModule = function(moduleName){
 }
 
 exports.module = exports.addModule
-
 module.exports = exports
