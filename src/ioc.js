@@ -39,10 +39,17 @@ function ioc(){
      * @param {string} methodName 
      * @param {function} methodFn
      * @param {object} bindObj
+     * @param {boolean} notOverride is not override the fn already reged
      */
-    this.regOne =  function(methodName,methodFn,bindObj){
+    this.regOne =  function(methodName,methodFn,bindObj,notOverride){
         //record 
         _this.record([methodName])
+        if(_this.registeredMethods[methodName])
+        {
+            if(!notOverride)
+                _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
+            return _this;
+        }
         _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
         //chain
         return _this;
@@ -53,22 +60,34 @@ function ioc(){
      * regOne or array
      * @param {string or array} methodNameOrArray 
      * @param {fn or null} yourMethod 
+     * @param {object} bindObj
+     * @param {boolean} notOverride is override the fn already reged
      * reg("yourMethod",yourMethod)
      * reg([{name:"yourMethod",fn:yourMethod,bindObj: null}])
      */
-    this.reg = function(methodNameOrArray,yourMethod,bindObj){
+    this.reg = function(methodNameOrArray,yourMethod,bindObj,notOverride){
         if(typeof(methodNameOrArray) == "string")
         {
-            _this.regOne(methodNameOrArray,yourMethod,bindObj)
+            _this.regOne(methodNameOrArray,yourMethod,bindObj,notOverride)
         }
         else
         {
             for(var i=0;i<methodNameOrArray.length;i++){
-                _this.regOne(methodNameOrArray[i].name,methodNameOrArray[i].fn,methodNameOrArray[i].bindObj)
+                _this.regOne(methodNameOrArray[i].name,methodNameOrArray[i].fn,methodNameOrArray[i].bindObj,notOverride)
             }
         }
         //chain
         return _this;
+    }
+
+    /**
+     * is reged 
+     * @param {string} methodName 
+     */
+    this.isReg =function(methodName){
+        if(_this.registeredMethods[methodName])
+            return true;
+        return false;
     }
 
 
@@ -181,6 +200,7 @@ exports =global.LiSA
 exports.record = LiSA.record
 exports.reg = LiSA.reg;
 exports.invoke= LiSA.invoke
+exports.isReg = LiSA.isReg
 /**
  * add module
  * @param {string} moduleName 
