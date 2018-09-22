@@ -16,4 +16,4 @@ LiSA.invoke.sync.fn();
 
 LiSA.reg('fn',function(){console.log("fn3 called")})
 
-LiSA.invoke.sync.fn();
+LiSA.invoke.sync.fn(); 
