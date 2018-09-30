@@ -34,6 +34,17 @@ function ioc(){
      */
     this.registeredMethods={};
 
+    this.tobeRunMethods = {};
+
+    this.AddTobeRun = function(fnName,fn){
+        if(fnName && fn){
+            if(!_this.tobeRunMethods[fnName]){
+                _this.tobeRunMethods[fnName] = new Array()
+            }
+            _this.tobeRunMethods[fnName].push(fn)
+        }
+    }
+
     /**
      * regOne fn
      * @param {string} methodName 
@@ -48,9 +59,21 @@ function ioc(){
         {
             if(!notOverride)
                 _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
-            return _this;
         }
-        _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
+        else
+        {
+            _this.registeredMethods[methodName] = { fn : methodFn, bo : bindObj};
+        }
+        // run to be run and clear list
+        if(_this.tobeRunMethods[methodName])
+        {
+            var tempArray = _this.tobeRunMethods[methodName]
+            _this.tobeRunMethods[methodName] = null
+            tempArray.forEach(element => {
+                element();
+            });
+
+        }
         //chain
         return _this;
     } ;
@@ -146,33 +169,34 @@ function ioc(){
                     }
                     if(rev())
                         return
-                    sleep(10).then(()=>{
-                        if(rev())
-                            return
-                        sleep(100).then(function(){
-                            if(rev())
-                                return
-                            sleep(200).then(function(){
-                                if(rev())
-                                    return
-                                sleep(500).then(function(){
-                                    if(rev())
-                                        return
-                                    sleep(800).then(function(){
-                                        if(rev())
-                                            return
-                                        sleep(3000).then(()=>{
-                                            if(rev())
-                                                return
-                                            console.log("IOC:invoke:"+name + " failed,you must reg it")
-                                            reject("invoke failed :" +name)
-                                        })
+                    _this.AddTobeRun(name,rev)
+                    // sleep(10).then(()=>{
+                    //     if(rev())
+                    //         return
+                    //     sleep(100).then(function(){
+                    //         if(rev())
+                    //             return
+                    //         sleep(200).then(function(){
+                    //             if(rev())
+                    //                 return
+                    //             sleep(500).then(function(){
+                    //                 if(rev())
+                    //                     return
+                    //                 sleep(800).then(function(){
+                    //                     if(rev())
+                    //                         return
+                    //                     sleep(3000).then(()=>{
+                    //                         if(rev())
+                    //                             return
+                    //                         console.log("IOC:invoke:"+name + " failed,you must reg it")
+                    //                         reject("invoke failed :" +name)
+                    //                     })
     
-                                    })
-                                })
-                            })
-                        })
-                    })
+                    //                 })
+                    //             })
+                    //         })
+                    //     })
+                    // })
                 }).catch(function(){})
                 return promise;
             }.bind({

@@ -22,24 +22,54 @@ var bo = {
     age :32
 }
 //3. you must register fn anywhere in 5 seconds
-ioc.reg([
-    {
-        name:"test1",
-        fn:function(p1,p2,p3){
-            return p1 + p2 ;
-        }
-    },
-    {
-        name : "test2",
-        fn:function(p1){
-            
-        }
-    },
-    {
-        name: "test3",
-        fn: function(p1){
-            return p1 + this.name + this.age;
+
+
+setTimeout(() => {
+    ioc.reg([
+        {
+            name:"test1",
+            fn:function(p1,p2,p3){
+                return p1 + p2 ;
+            }
         },
-        bindObj : bo
-    }
-])
+        {
+            name : "test2",
+            fn:function(p1){
+                
+            }
+        },
+        {
+            name: "test3",
+            fn: function(p1){
+                return p1 + this.name + this.age;
+            },
+            bindObj : bo
+        }
+    ])
+
+    ioc.invoke.test3("p1").then(function(data){
+        console.log(data + "1")
+    })
+
+    ioc.reg([
+        {
+            name:"test1",
+            fn:function(p1,p2,p3){
+                return p1 + p2 ;
+            }
+        },
+        {
+            name : "test2",
+            fn:function(p1){
+                
+            }
+        },
+        {
+            name: "test3",
+            fn: function(p1){
+                return p1 + this.name + this.age;
+            },
+            bindObj : bo
+        }
+    ])
+}, 10000);
