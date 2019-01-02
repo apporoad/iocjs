@@ -1,6 +1,6 @@
 {
   "name": "peeriocjs",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "peer invoking package",
   "main": "src/ioc.js",
   "scripts": {

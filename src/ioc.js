@@ -7,6 +7,19 @@
 
 // ps : es5 has not yield, without babel
 
+var Type = (function() {
+    var type = {};
+    var typeArr = ['String', 'Object', 'Number', 'Array','Undefined', 'Function', 'Null', 'Symbol','Boolean','RegExp'];
+    for (var i = 0; i < typeArr.length; i++) {
+        (function(name) {
+            type['is' + name] = function(obj) {
+                return Object.prototype.toString.call(obj) == '[object ' + name + ']';
+            }
+        })(typeArr[i]);
+    }
+    return type;
+})();
+
 
 function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -131,7 +144,11 @@ function ioc(){
                 var rev = function(){
                     if(_this.registeredMethods[name])
                     {
-                        result = _this.registeredMethods[name].fn.apply(_this.registeredMethods[name].bo,args);
+                        if(Type.isFunction(_this.registeredMethods[name].fn)){
+                            result = _this.registeredMethods[name].fn.apply(_this.registeredMethods[name].bo,args);
+                        }else{
+                            result = _this.registeredMethods[name].fn
+                        }
                         return true;
                     }
                     else
@@ -160,7 +177,13 @@ function ioc(){
                     var rev = function(){
                         if(_this.registeredMethods[name])
                         {
-                            var result = _this.registeredMethods[name].fn.apply(_this.registeredMethods[name].bo,args);
+                            var result =null
+                            if(Type.isFunction(_this.registeredMethods[name].fn)){
+                                result = _this.registeredMethods[name].fn.apply(_this.registeredMethods[name].bo,args);
+                            }else{
+                                result = _this.registeredMethods[name].fn
+                            }
+
                             resolve(result)
                             return true;
                         }
